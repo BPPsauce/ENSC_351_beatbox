@@ -53,8 +53,8 @@ void AudioMixer_init(void)
 	// REVISIT:- Implement this. Hint: set the pSound pointer to NULL for each
 	//     sound bite.
     for(int i = 0; i < MAX_SOUND_BITES; i++){
-        soundBites[i].pSound = NULL;
-        soundBites[i].location = 0;
+        memset(soundBites,0,sizeof(*soundBites));
+        //soundBites[i].location = 0;
     }
     
 
@@ -161,13 +161,21 @@ void AudioMixer_queueSound(wavedata_t *pSound)
     //Search for empty sound bite spot
     pthread_mutex_lock(&audioMutex);
     int i = 0;
+	
     for(; i < MAX_SOUND_BITES; i++)
     {
-        if(soundBites[i].pSound != NULL)
-        {
+		printf("run ok\n");
+		//search through the sound bites looking for a free slot
+        if(soundBites[i].pSound == NULL)//this is the problem 
+        {		//i doesnt seem right
+			printf("run ok2\n");
             //Empty spot found
+			printf("max sound bites: %d\n", MAX_SOUND_BITES);
+			printf("i: %d\n", MAX_SOUND_BITES);
             soundBites[i].pSound = pSound;
             soundBites[i].location = 0; // start sound from beginning
+			printf("max sound bites: %d\n", MAX_SOUND_BITES);
+			printf("i: %d\n", MAX_SOUND_BITES);
             break;
         }
     }

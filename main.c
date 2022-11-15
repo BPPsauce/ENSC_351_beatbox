@@ -10,7 +10,7 @@
 
 #include <alsa/asoundlib.h>
 
-#define DRUM_SOUND "beatbox-wave-files/100060__menegass__gui-drum-splash-hard.wav"
+#define DRUM_SOUND "beatbox-wav-files/100060__menegass__gui-drum-splash-hard.wav"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +22,8 @@ int main(int argc, char *argv[])
         wavedata_t pSound;
         AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
         AudioMixer_queueSound(&pSound);
-        sleep_for_ms(10);
+        //AudioMixer_freeWaveFileData(&pSound);
+        sleep_for_ms(4000); //100 is too little for the sound 
     }
 //END OF WAV PLAYER
  
