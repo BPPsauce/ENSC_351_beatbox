@@ -4,16 +4,26 @@
 #include "button.h"
 #include "display.h"
 #include "joystick.h"
-#include "wavPlayer.h"
+#include "audioMixer.h"
 #include <stdbool.h>
 #include <ctype.h>
 
 #include <alsa/asoundlib.h>
 
+#define DRUM_SOUND "beatbox-wave-files/100060__menegass__gui-drum-splash-hard.wav"
+
 int main(int argc, char *argv[])
 {
 //AUDIO PART
-    playTone();
+    //  playTone();
+    while(1)
+    {  
+        AudioMixer_init();
+        wavedata_t pSound;
+        AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
+        AudioMixer_queueSound(&pSound);
+        sleep_for_ms(10);
+    }
 //END OF WAV PLAYER
  
     //variable init
