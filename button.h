@@ -1,7 +1,11 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-int isPressedButton();
-//config pin
-void pinInit();
+
+//This is the function that figure out which button is being pressed
+int whichButtonPressed();
+
+//pin config for thr gpio pins
+void buttonsInit();
+
 #endif

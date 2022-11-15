@@ -5,6 +5,8 @@
 #include "display.h"
 #include "joystick.h"
 #include "wavPlayer.h"
+#include <stdbool.h>
+#include <ctype.h>
 
 #include <alsa/asoundlib.h>
 
@@ -19,12 +21,12 @@ int main(int argc, char *argv[])
 
     printf("Welcome to the program!\n");
     //pinInit is for the USER button
-    pinInit();
+    buttonsInit();
 
-    int buttonIspressed = isPressedButton();
-    printf("result : %d\n", buttonIspressed);
+    int buttonIspressed = whichButtonPressed();
+    printf("This button is getting prssed : %d\n", buttonIspressed);
 
-    while (buttonIspressed != 1){
+    while (buttonIspressed != 3){
         //update variables
 
         //display init
@@ -61,7 +63,9 @@ int main(int argc, char *argv[])
             printf("Joystick reading not correct!\n");
             break;
         }
-        buttonIspressed = isPressedButton();
+        buttonIspressed = whichButtonPressed();
+        printf("This button is getting prssed : %d\n", buttonIspressed);
+
     }
     //break loop
     printf("Shutting down...\n");
