@@ -7,6 +7,7 @@
 #include "audioMixer.h"
 #include <stdbool.h>
 #include <ctype.h>
+#include "hardwareUpdate.h"
 
 #include <alsa/asoundlib.h>
 
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
 {
 //AUDIO PART
     //  playTone();
-    while(1)
+    /*while(1)
     {  
         AudioMixer_init();
         wavedata_t pSound;
@@ -24,18 +25,17 @@ int main(int argc, char *argv[])
         AudioMixer_queueSound(&pSound);
         //AudioMixer_freeWaveFileData(&pSound);
         sleep_for_ms(4000); //100 is too little for the sound 
-    }
+    }*/
 //END OF WAV PLAYER
  
-    //variable init
-    int mode = 0;
 
     printf("Welcome to the program!\n");
     //pinInit is for the USER button
     buttonsInit();
+    updateInit();
+
 
     int buttonIspressed = whichButtonPressed();
-    printf("This button is getting prssed : %d\n", buttonIspressed);
 
     while (buttonIspressed != 3){
         //update variables
@@ -43,43 +43,13 @@ int main(int argc, char *argv[])
         //display init
         displayInit();
 
-        int direction = getDirection(joyStickReadX(), joyStickReadY());
-            //center - 0
-            //up     - 1
-            //down   - 2
-            //left   - 3
-            //right  - 4
-        switch (direction)
-        {
-        case 0: //center
-            printMode(mode);
-            break;
-        case 1: //up
-            printf("Pressing Up\n");
-            //print volume
-            break;
-        case 2: //down 
-            printf("Pressing Down\n");
-            //print volume
-            break;
-        case 3: //left
-            printf("Pressing Left\n");
-            //print BPM
-            break;
-        case 4: //right
-            printf("Pressing Right\n");
-            //print BPM 
-            break;
-        default:
-            printf("Joystick reading not correct!\n");
-            break;
-        }
         buttonIspressed = whichButtonPressed();
         printf("This button is getting prssed : %d\n", buttonIspressed);
 
     }
     //break loop
     printf("Shutting down...\n");
+    updateStop();
     //reset display
     //stop the threads
     resetDisplay();
