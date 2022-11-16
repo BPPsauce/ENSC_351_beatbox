@@ -7,7 +7,6 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "util.h"
-#include "wavPlayer.h"
 
 #define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
 #define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
@@ -84,15 +83,15 @@ static void playButtonSound(int buttonReading){
         {
         case 2:
             printf("playing base drum\n");
-            playTone(DRUM_SOUND);
+            //playTone(DRUM_SOUND);
             break;
         case 3: 
             printf("playing snare\n");
-            playTone(HIHAT_SOUND);
+            //playTone(HIHAT_SOUND);
             break;
         case 4 :
             printf("playin hi-hat\n");
-            playTone(SNARE_SOUND);
+            //playTone(SNARE_SOUND);
         default:
             break;
         } 

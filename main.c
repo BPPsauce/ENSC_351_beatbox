@@ -14,9 +14,6 @@
 
 #include <alsa/asoundlib.h>
 
-/*should move it to somewhere else*/
-#define DRUM_SOUND "beatbox-wav-files/100060__menegass__gui-drum-splash-hard.wav"
-#define DRUM_SOUND_2 "beatbox-wav-files/100060__menegass__gui-drum-splash-hard.wav"
 
 int main(int argc, char *argv[])
 {
@@ -51,12 +48,13 @@ int main(int argc, char *argv[])
 
     printf("Welcome to the program!\n");
     //pinInit is for the USER button
-    buttonsInit();
-    updateInit(); 
+     
     AudioMixer_init();
     Interval_init();
     console_writer_init();
     beatPlayerInit();
+    buttonsInit();
+    updateInit();
     
     int buttonIspressed = whichButtonPressed();
 
