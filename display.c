@@ -97,12 +97,51 @@ static int * integerSplit(int number){
     return digit;
 }
 
+static int * doubleSplit(double number){
+    if (number > 9.9){
+        number = 9.9;
+    }
+    int * digit = malloc(sizeof(int) * 1);
+
+    int intPart = (int)number; //cast it int
+    double temp = number - intPart;
+    temp = 10 * temp;
+    int decPart = (int)temp;
+
+    digit[0] = decPart;
+    digit[1] = intPart;
+
+    return digit;
+}
+
 void printInteger(int reading){
     int * digit = integerSplit(reading);
 
     int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
     //empty value arrays, ready for OR and shift operation
     unsigned char value[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    unsigned char shifted[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    for (int i = 0; i < 8; i++){
+        //the number on the left is 4 bits shifted to the left
+        shifted[i] = numberTable[digit[1]][i] << 4;
+        value[i] |= numberTable[digit[0]][i];
+        //then OR together to get the final value
+        value[i] |= shifted[i];
+    }
+
+    for (int i = 0; i < 8; i++){
+        writeI2cReg(i2cFileDesc, rows[i], value[i]);
+    }
+    //free the array
+    free(digit);
+}
+
+void printDouble(double reading){
+    int * digit = doubleSplit(reading);
+
+    int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
+    //empty value arrays, ready for OR and shift operation
+    unsigned char value[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08};
     unsigned char shifted[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     for (int i = 0; i < 8; i++){
         //the number on the left is 4 bits shifted to the left

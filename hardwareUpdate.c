@@ -7,6 +7,11 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "util.h"
+#include "wavPlayer.h"
+
+#define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
+#define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
+#define SNARE_SOUND "beatbox-wav-files/100059__menegass__gui-drum-snare-soft.wav"
 
 static bool quit = false;
 static int mode = 0;
@@ -79,12 +84,15 @@ static void playButtonSound(int buttonReading){
         {
         case 2:
             printf("playing base drum\n");
+            playTone(DRUM_SOUND);
             break;
         case 3: 
             printf("playing snare\n");
+            playTone(HIHAT_SOUND);
             break;
         case 4 :
             printf("playin hi-hat\n");
+            playTone(SNARE_SOUND);
         default:
             break;
         } 
@@ -102,7 +110,7 @@ static void *hardwareUpdate(void *_){
         updateBPM(joystickDir);
         updateMode(buttonValue);
         playButtonSound(buttonValue);
-        sleep_for_ms(100);
+        sleep_for_ms(200);
     }
     return NULL;
 }
