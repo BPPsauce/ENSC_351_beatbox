@@ -33,10 +33,9 @@ int main(int argc, char *argv[])
         AudioMixer_queueSound(&DrumSound);
         AudioMixer_queueSound(&DrumSound2);
         sleep_for_ms(4000); //100 is too little for the sound 
-        AudioMixer_queueSound(&DrumSound2);
-    Interval_init();
-    AudioMixer_init();
-    console_writer_init();
+        AudioMixer_queueSound(&DrumSound2);*/
+   
+    /*
     wavedata_t pSound;
     AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
     while(1)
@@ -53,8 +52,10 @@ int main(int argc, char *argv[])
     printf("Welcome to the program!\n");
     //pinInit is for the USER button
     buttonsInit();
-    updateInit();
+    updateInit(); 
     AudioMixer_init();
+    Interval_init();
+    console_writer_init();
     beatPlayerInit();
     
     int buttonIspressed = whichButtonPressed();
