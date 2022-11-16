@@ -8,6 +8,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include "hardwareUpdate.h"
+#include "consoleWriter.h"
+#include "intervalTimer.h"
 
 #include <alsa/asoundlib.h>
 
@@ -17,14 +19,16 @@ int main(int argc, char *argv[])
 {
 //AUDIO PART
     //  playTone();
+    Interval_init();
     AudioMixer_init();
+    console_writer_init();
     wavedata_t pSound;
     AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
     while(1)
     {
         AudioMixer_queueSound(&pSound);
         AudioMixer_queueSound(&pSound);
-        sleep_for_ms(4000); //100 is too little for the sound 
+        sleep_for_ms(4000);
         AudioMixer_queueSound(&pSound);
         sleep_for_ms(4000);
     }
