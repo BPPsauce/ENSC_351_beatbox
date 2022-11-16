@@ -110,7 +110,7 @@ static void *hardwareUpdate(void *_){
         updateBPM(joystickDir);
         updateMode(buttonValue);
         playButtonSound(buttonValue);
-        sleep_for_ms(100);
+        sleep_for_ms(200);
     }
     return NULL;
 }

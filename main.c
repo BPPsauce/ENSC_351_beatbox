@@ -43,9 +43,41 @@ int main(int argc, char *argv[])
         //display init
         displayInit();
 
+        int direction = getDirection(joyStickReadX(), joyStickReadY());
+            //center - 0
+            //up     - 1
+            //down   - 2
+            //left   - 3
+            //right  - 4
+        switch (direction)
+        {
+        case 0: //center
+            printMode(getMode());
+            break;
+        case 1: //up
+            printInteger(getVolume());
+            sleep_for_ms(100);
+            break;
+        case 2: //down 
+            printInteger(getVolume());
+            sleep_for_ms(100);
+            break;
+        case 3: //left
+            printDouble(getBPM() / 60);
+            sleep_for_ms(100);
+            break;
+        case 4: //right
+            printDouble(getBPM() / 60);
+            sleep_for_ms(100);
+            break;
+        default:
+            printf("Joystick reading not correct!\n");
+            break;
+
         buttonIspressed = whichButtonPressed();
         printf("This button is getting prssed : %d\n", buttonIspressed);
 
+        }
     }
     //break loop
     printf("Shutting down...\n");
@@ -55,4 +87,4 @@ int main(int argc, char *argv[])
     resetDisplay();
 
     printf("Done shutdown! Goodbye!\n");
-}
+    }
