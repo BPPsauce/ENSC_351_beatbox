@@ -3,10 +3,8 @@
 #define BEATGENERATOR_H
 
 
-void beatGenerate(int mode);
+void beatPlayerInit(void);
 
-void playBeat();
-
-int beatDelay(int BMP);
+void beatPlayerStop(void);
 
 #endif
