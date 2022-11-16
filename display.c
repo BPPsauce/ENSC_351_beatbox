@@ -87,7 +87,7 @@ static int * integerSplit(int number){
     if (number > 99){
         number = 99;
     }
-    int * digit = malloc(sizeof(int) * 1);
+    int * digit = malloc(sizeof(int) * 2);
 
     for(int i = 0; i < 2; i++){
         digit[i] = number%10;
@@ -101,7 +101,7 @@ static int * doubleSplit(double number){
     if (number > 9.9){
         number = 9.9;
     }
-    int * digit = malloc(sizeof(int) * 1);
+    int * digit = malloc(sizeof(int) * 2);
 
     int intPart = (int)number; //cast it int
     double temp = number - intPart;

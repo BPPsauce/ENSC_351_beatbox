@@ -54,8 +54,8 @@ void AudioMixer_init(void)
 	// REVISIT:- Implement this. Hint: set the pSound pointer to NULL for each
 	//     sound bite.
     for(int i = 0; i < MAX_SOUND_BITES; i++){
-        memset(soundBites,0,sizeof(*soundBites));
-        //soundBites[i].location = 0;
+		soundBites[i].pSound = NULL;
+        soundBites[i].location = 0;
     }
     
 
@@ -85,6 +85,7 @@ void AudioMixer_init(void)
  	unsigned long unusedBufferSize = 0;
 	snd_pcm_get_params(handle, &unusedBufferSize, &playbackBufferSize);
 	// ..allocate playback buffer:
+	printf("allocating playback buff\n");
 	playbackBuffer = malloc(playbackBufferSize * sizeof(*playbackBuffer));
 
 	// Launch playback thread:
@@ -116,6 +117,7 @@ void AudioMixer_readWaveFileIntoMemory(char *fileName, wavedata_t *pSound)
 	fseek(file, PCM_DATA_OFFSET, SEEK_SET);
 
 	// Allocate space to hold all PCM data
+	printf("mallov wave data\n");
 	pSound->pData = malloc(sizeInBytes);
 	if (pSound->pData == 0) {
 		fprintf(stderr, "ERROR: Unable to allocate %d bytes for file %s.\n",
@@ -160,12 +162,12 @@ void AudioMixer_queueSound(wavedata_t *pSound)
 	 */
 
     //Search for empty sound bite spot
+	int i = 0;
     pthread_mutex_lock(&audioMutex);
-    int i = 0;
     for(; i < MAX_SOUND_BITES; i++)
     {
 		//search through the sound bites looking for a free slot
-        if(soundBites[i].pSound == NULL)//this is the problem 
+        if(soundBites[i].pSound == NULL)
         {
             //Empty spot found
             soundBites[i].pSound = pSound;
@@ -255,7 +257,7 @@ static void fillPlaybackBuffer(short *buff, int size)
 {
 
     //use memset to wipe buff
-    memset(buff, 0, size * sizeof(playbackBuffer)); // set buffer contents to 0
+    memset(buff, 0, size * sizeof(*playbackBuffer)); // set buffer contents to 0
     //get mutex
     pthread_mutex_lock(&audioMutex);
     //loop through and add relevant sound bites to the buffer
@@ -342,7 +344,6 @@ void* playbackThread(void* _arg)
 	while (!stopping) {
 		// Generate next block of audio
 		fillPlaybackBuffer(playbackBuffer, playbackBufferSize);
-
 		// Output the audio
 		snd_pcm_sframes_t frames = snd_pcm_writei(handle,
 				playbackBuffer, playbackBufferSize);
