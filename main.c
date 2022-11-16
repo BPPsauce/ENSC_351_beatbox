@@ -9,6 +9,9 @@
 #include <ctype.h>
 #include "hardwareUpdate.h"
 #include "beatGenerator.h"
+#include "consoleWriter.h"
+#include "intervalTimer.h"
+
 #include <alsa/asoundlib.h>
 
 /*should move it to somewhere else*/
@@ -31,6 +34,17 @@ int main(int argc, char *argv[])
         AudioMixer_queueSound(&DrumSound2);
         sleep_for_ms(4000); //100 is too little for the sound 
         AudioMixer_queueSound(&DrumSound2);
+    Interval_init();
+    AudioMixer_init();
+    console_writer_init();
+    wavedata_t pSound;
+    AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
+    while(1)
+    {
+        AudioMixer_queueSound(&pSound);
+        AudioMixer_queueSound(&pSound);
+        sleep_for_ms(4000);
+        AudioMixer_queueSound(&pSound);
         sleep_for_ms(4000);
     }*/
 //END OF WAV PLAYER

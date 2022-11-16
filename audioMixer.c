@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <pthread.h>
 #include <limits.h>
+#include "intervalTimer.h"
 #include <alloca.h> // needed for mixer
 
 
@@ -168,7 +169,6 @@ void AudioMixer_queueSound(wavedata_t *pSound)
         if(soundBites[i].pSound == NULL)//this is the problem 
         {
             //Empty spot found
-			printf("empty spot found at i: %d\n", i);
             soundBites[i].pSound = pSound;
             soundBites[i].location = 0; // start sound from beginning
             break;
@@ -292,6 +292,7 @@ static void fillPlaybackBuffer(short *buff, int size)
         }
     }
     pthread_mutex_unlock(&audioMutex);
+	Interval_markInterval(INTERVAL_LOW_LEVEL_AUDIO);
 	/*
 	 * REVISIT: Implement this
 	 * 1. Wipe the buff to all 0's to clear any previous PCM data.
