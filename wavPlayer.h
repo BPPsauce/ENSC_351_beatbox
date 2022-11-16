@@ -11,5 +11,5 @@ typedef struct {
 snd_pcm_t *Audio_openDevice();
 void Audio_readWaveFileIntoMemory(char *fileName, wavedata_t *pWaveStruct);
 void Audio_playFile(snd_pcm_t *handle, wavedata_t *pWaveData);
-void playTone(void);
+void playTone(char *sourcefile);
 #endif
