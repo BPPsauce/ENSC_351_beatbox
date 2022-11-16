@@ -161,21 +161,15 @@ void AudioMixer_queueSound(wavedata_t *pSound)
     //Search for empty sound bite spot
     pthread_mutex_lock(&audioMutex);
     int i = 0;
-	
     for(; i < MAX_SOUND_BITES; i++)
     {
-		printf("run ok\n");
 		//search through the sound bites looking for a free slot
         if(soundBites[i].pSound == NULL)//this is the problem 
-        {		//i doesnt seem right
-			printf("run ok2\n");
+        {
             //Empty spot found
-			printf("max sound bites: %d\n", MAX_SOUND_BITES);
-			printf("i: %d\n", MAX_SOUND_BITES);
+			printf("empty spot found at i: %d\n", i);
             soundBites[i].pSound = pSound;
             soundBites[i].location = 0; // start sound from beginning
-			printf("max sound bites: %d\n", MAX_SOUND_BITES);
-			printf("i: %d\n", MAX_SOUND_BITES);
             break;
         }
     }
@@ -269,7 +263,6 @@ static void fillPlaybackBuffer(short *buff, int size)
     {
         if(soundBites[i].pSound != NULL) // found an incomplete sound
         {
-            //how far are we
             int location = soundBites[i].location; // where we are within the pData samples
             for(int j = 0; j < size; j++)
             {
@@ -278,19 +271,19 @@ static void fillPlaybackBuffer(short *buff, int size)
                 int new_data_value = existing_data_value_32 + data_sample_32;
                 if(new_data_value > INT16_MAX)
                 {
-                    new_data_value = INT16_MAX - 1; //Verify that I actually need the -1 **** 
+                    new_data_value = INT16_MAX;
                 }
                 if(new_data_value < INT16_MIN)
                 {
-                    new_data_value = INT16_MIN + 1; //Verify that I actually need the + 1 ****
+                    new_data_value = INT16_MIN; 
                 }
                 buff[j] = (int16_t)new_data_value;
                 location++;
                 if(location == soundBites[i].pSound->numSamples)
                 {
-                    break; // we have written out the entire wave reset soundBites entry
                     soundBites[i].pSound = NULL;
                     location = 0;
+                    break; // we have written out the entire wave reset soundBites entry
                 }
             }
             soundBites[i].location = location; // update location

@@ -17,15 +17,17 @@ int main(int argc, char *argv[])
 {
 //AUDIO PART
     //  playTone();
-    /*while(1)
-    {  
-        AudioMixer_init();
-        wavedata_t pSound;
-        AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
+    AudioMixer_init();
+    wavedata_t pSound;
+    AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
+    while(1)
+    {
         AudioMixer_queueSound(&pSound);
-        //AudioMixer_freeWaveFileData(&pSound);
+        AudioMixer_queueSound(&pSound);
         sleep_for_ms(4000); //100 is too little for the sound 
-    }*/
+        AudioMixer_queueSound(&pSound);
+        sleep_for_ms(4000);
+    }
 //END OF WAV PLAYER
  
 
