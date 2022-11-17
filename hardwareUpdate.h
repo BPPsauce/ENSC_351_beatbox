@@ -10,5 +10,6 @@ void updateStop(void);
 int getVolume();
 int getBPM();
 int getMode();
+int getJoystickDir();
 
 #endif

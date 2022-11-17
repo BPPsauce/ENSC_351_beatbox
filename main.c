@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
         //display init
         // displayInit();
 
-        int direction = getDirection(joyStickReadX(), joyStickReadY());
+        int direction = getJoystickDir();
             //center - 0
             //up     - 1
             //down   - 2
