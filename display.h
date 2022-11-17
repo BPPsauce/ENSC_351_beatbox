@@ -12,7 +12,7 @@ void printMode(int mode);
 
 void resetDisplay(void);
 
-void displayInit(void);
+void displayWriter_init(void);
 
-void displayCleanup(void);
+void displayWriter_cleanup(void);
 #endif

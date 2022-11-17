@@ -216,6 +216,7 @@ static void *UpdateDisplay(void *_)
             break;
 
         }
+        sleep_for_ms(50);
     }
     return NULL;
 }
