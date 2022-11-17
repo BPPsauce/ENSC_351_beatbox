@@ -21,11 +21,14 @@ static void *console_writer_thread(void *_)
         int volume = AudioMixer_getVolume();
         int bpm = getBPM();
         int mode = getMode();
+        //get statistics for low level
         Interval_getStatisticsAndClear(INTERVAL_LOW_LEVEL_AUDIO, &stats);
         float low_min = stats.minIntervalInMs;
         float low_max = stats.maxIntervalInMs;
         float low_av = stats.avgIntervalInMs;
         int low_num_samples = stats.numSamples;
+        
+        //get statistics for high level
         Interval_getStatisticsAndClear(INTERVAL_BEAT_BOX, &stats);
         float beat_min = stats.minIntervalInMs;
         float beat_max = stats.maxIntervalInMs;

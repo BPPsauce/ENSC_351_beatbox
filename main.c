@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
 
 
     printf("Welcome to the program!\n");
-    //pinInit is for the USER button
     buttonsInit();
     displayWriter_init();
     HWupdateInit();
