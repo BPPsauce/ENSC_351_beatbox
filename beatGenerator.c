@@ -27,10 +27,11 @@ static int beatDelay(int BPM){
 }
 
 
-static void mode_0_Beat(int BPM){ //120
+static void mode_0_Beat(int BPM, int volume){ //120
     int timeDelayBetween = beatDelay(BPM);
     /*hi-hat base*/
-    AudioMixer_setVolume(40);
+    AudioMixer_setVolume(volume);
+
     AudioMixer_queueSound(&drum);
     AudioMixer_queueSound(&hihat);
     sleep_for_ms(timeDelayBetween);
@@ -59,20 +60,60 @@ static void mode_0_Beat(int BPM){ //120
     AudioMixer_queueSound(&hihat);
     sleep_for_ms(timeDelayBetween);
 }
-/*1. make the track
-    2. make the loop that can play the track 
-    3. */
+
+static void mode_1_Beat(int BPM, int volume){ //120
+    int timeDelayBetween = beatDelay(BPM);
+    /*hi-hat base*/
+    AudioMixer_setVolume(volume);
+
+    AudioMixer_queueSound(&drum);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat*/
+    AudioMixer_queueSound(&drum);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat snare*/
+    AudioMixer_queueSound(&hihat);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat*/
+    AudioMixer_queueSound(&drum);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat base*/
+    AudioMixer_queueSound(&drum);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat*/
+    AudioMixer_queueSound(&hihat);
+    AudioMixer_queueSound(&snare);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat snare*/
+    AudioMixer_queueSound(&drum);
+    sleep_for_ms(timeDelayBetween);
+    /*hi-hat*/
+    AudioMixer_queueSound(&drum);
+    sleep_for_ms(timeDelayBetween);
+}
+
+
 
 static void *beatGenerateThread(void *_){
     while (!quit){
         int mode = getMode();
         int BPM = getBPM();
-        if (mode == 0){
-            pthread_mutex_lock(&beatPlayMutex);
-            mode_0_Beat(BPM);
-            pthread_mutex_unlock(&beatPlayMutex);
-            sleep_for_ms(100);
+        int volume = getVolume();
+        pthread_mutex_lock(&beatPlayMutex);
+        switch (mode)
+        {
+        case 0:
+            mode_0_Beat(BPM, volume);
+            break;
+        case 1: 
+            mode_1_Beat(BPM, volume);
+            break;
+        default:
+            printf("Mode 2: no drum sound\n");
+            break;
         }
+        pthread_mutex_unlock(&beatPlayMutex);
+        sleep_for_ms(200);
     }
     return NULL;
 }
