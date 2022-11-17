@@ -47,3 +47,7 @@ void buttonsInit(){
     runCommand("config-pin P8.17 gpio");
     runCommand("config-pin P8.18 gpio");
 }
+
+void buttonCleanup(){
+    printf("Buttons clean up\n");
+}

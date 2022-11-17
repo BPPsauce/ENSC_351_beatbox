@@ -7,5 +7,6 @@ int whichButtonPressed();
 
 //pin config for thr gpio pins
 void buttonsInit();
+void buttonCleanup();
 
 #endif

@@ -20,14 +20,14 @@ int main(int argc, char *argv[])
 
 
     printf("Welcome to the program!\n");
-    //pinInit is for the USER button
-    buttonsInit();
-    displayWriter_init();
-    HWupdateInit();
+  
     Interval_init();
-    AudioMixer_init();
     beatPlayerInit();
     console_writer_init();
+    buttonsInit();
+    HWupdateInit();
+    displayWriter_init();
+    AudioMixer_init();
 
     printf("Enter Q to quit.\n");
     while(true)
@@ -38,12 +38,14 @@ int main(int argc, char *argv[])
         }
     }
     //break loop
+    AudioMixer_cleanup();
     printf("Shutting down...\n");
+    displayWriter_cleanup();
+    HWupdateStop();
+    buttonCleanup();
     console_writer_cleanup();
     beatPlayerStop();
-    AudioMixer_cleanup();
-    HWupdateStop();
-    displayWriter_cleanup();
+    Interval_cleanup();
 
     printf("Done shutdown! Goodbye!\n");
     }
