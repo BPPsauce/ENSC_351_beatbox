@@ -71,10 +71,6 @@ int main(int argc, char *argv[])
     AudioMixer_cleanup();
     HWupdateStop();
     displayWriter_cleanup();
-    
-    //reset display
-    //stop the threads
-    // resetDisplay();
 
     printf("Done shutdown! Goodbye!\n");
     }

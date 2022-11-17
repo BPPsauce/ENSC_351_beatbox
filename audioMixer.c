@@ -198,7 +198,7 @@ void AudioMixer_cleanup(void)
 	free(playbackBuffer);
 	playbackBuffer = NULL;
 
-	printf("Done stopping audio...\n");
+	printf("Done stopping audio...\n\n");
 	fflush(stdout);
 }
 
