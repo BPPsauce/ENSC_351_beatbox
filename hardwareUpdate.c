@@ -17,11 +17,7 @@ static int mode = 0;
 static int BPM = 120;
 static int volume = 80;
 static int joystickDir = 0;
-static pthread_mutex_t updateMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_t hardwareUpdateThreadID;
-
-
-
 
 //center - 0
 //up     - 1
@@ -78,8 +74,6 @@ static void updateMode(int grayButtonReading){
 static void playButtonSound(int buttonReading){
 
     if (buttonReading != 0 && buttonReading != 1){
-        /*place the mutext here*/
-        pthread_mutex_lock(&updateMutex);
        switch (buttonReading)
         {
         case 2:
@@ -96,8 +90,6 @@ static void playButtonSound(int buttonReading){
         default:
             break;
         } 
-        /*release the mutex here*/
-        pthread_mutex_unlock(&updateMutex);
     }
 
 }
@@ -116,11 +108,11 @@ static void *hardwareUpdate(void *_){
 }
 
 
-void updateInit(void){
+void HWupdateInit(void){
     pthread_create(&hardwareUpdateThreadID, NULL, &hardwareUpdate, NULL);
 }
 
-void updateStop(void){
+void HWupdateStop(void){
     quit = true;
     pthread_join(hardwareUpdateThreadID, NULL);
 }

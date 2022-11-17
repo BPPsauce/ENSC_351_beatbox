@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <sys/ioctl.h>
 #include <linux/i2c.h>
 #include <linux/i2c-dev.h>
 #include "util.h"
+#include "hardwareUpdate.h"
 
 #define DISPLAY_I2C_ADDR 0x70
 
@@ -21,6 +23,8 @@
 #define ROW7 0X0E
 
 unsigned char rows[] = {ROW7, ROW6, ROW5, ROW4, ROW3, ROW2, ROW1, ROW0};
+static pthread_t displayThreadID;
+static int stopping = 0;
 
 // << 4 to get the one on the right
 // the digit[0] and digit[1] will select the correct pattern from the table
@@ -74,7 +78,7 @@ static void i2cpinsInit(){
 }
 
 //init the i2c pins and turn on the display
-void displayInit(){
+static void displayInternalInit(){
     i2cpinsInit();
     int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
     writeI2cReg(i2cFileDesc, 0x21, 0x00);
@@ -174,3 +178,56 @@ void printMode(int mode){
 
 }
 
+static void *UpdateDisplay(void *_)
+{
+    while (!stopping){
+        //display init
+        // displayInit();
+
+        int direction = getJoystickDir();
+            //center - 0
+            //up     - 1
+            //down   - 2
+            //left   - 3
+            //right  - 4
+        switch (direction)
+        {
+        case 0: //center
+            printMode(getMode());
+            break;
+        case 1: //up
+            printInteger(getVolume());
+            sleep_for_ms(100);
+            break;
+        case 2: //down 
+            printInteger(getVolume());
+            sleep_for_ms(100);
+            break;
+        case 3: //left
+            printDouble(getBPM() / 60.0);
+            sleep_for_ms(100);
+            break;
+        case 4: //right
+            printDouble(getBPM() / 60.0);
+            sleep_for_ms(100);
+            break;
+        default:
+            printf("Joystick reading not correct!\n");
+            break;
+
+        }
+    }
+    return NULL;
+}
+
+void displayWriter_init(void)
+{
+    displayInternalInit();
+    pthread_create(&displayThreadID, NULL, &UpdateDisplay, NULL);
+}
+
+void displayWriter_cleanup(void)
+{
+    stopping = 1;
+    pthread_join(displayThreadID, NULL);
+}

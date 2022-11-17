@@ -49,57 +49,11 @@ int main(int argc, char *argv[])
     printf("Welcome to the program!\n");
     //pinInit is for the USER button
     buttonsInit();
-    updateInit();
+    HWupdateInit();
     Interval_init();
     AudioMixer_init();
-    //Interval_init();
-    console_writer_init();
     beatPlayerInit();
-    
-    int buttonIspressed = whichButtonPressed();
-
-    while (buttonIspressed != 3){
-        //update variables
-
-        //display init
-        // displayInit();
-
-        int direction = getJoystickDir();
-            //center - 0
-            //up     - 1
-            //down   - 2
-            //left   - 3
-            //right  - 4
-        switch (direction)
-        {
-        case 0: //center
-            printMode(getMode());
-            break;
-        case 1: //up
-            printInteger(getVolume());
-            sleep_for_ms(100);
-            break;
-        case 2: //down 
-            printInteger(getVolume());
-            sleep_for_ms(100);
-            break;
-        case 3: //left
-            printDouble(getBPM() / 60);
-            sleep_for_ms(100);
-            break;
-        case 4: //right
-            printDouble(getBPM() / 60);
-            sleep_for_ms(100);
-            break;
-        default:
-            printf("Joystick reading not correct!\n");
-            break;
-
-        buttonIspressed = whichButtonPressed();
-        printf("This button is getting prssed : %d\n", buttonIspressed);
-
-        }
-    }
+    console_writer_init();
 
     printf("Enter Q to quit.\n");
     while(true)
@@ -111,8 +65,11 @@ int main(int argc, char *argv[])
     }
     //break loop
     printf("Shutting down...\n");
-    updateStop();
+    console_writer_cleanup();
     beatPlayerStop();
+    AudioMixer_cleanup();
+    HWupdateStop();
+    
     //reset display
     //stop the threads
     // resetDisplay();
