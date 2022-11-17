@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-pthread_t writerThread;
+static pthread_t writerThread;
 static bool stopThread;
 
 static void *console_writer_thread(void *_)
