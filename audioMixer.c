@@ -142,7 +142,6 @@ void AudioMixer_freeWaveFileData(wavedata_t *pSound)
 void AudioMixer_queueSound(wavedata_t *pSound)
 {
 	// Ensure we are only being asked to play "good" sounds:
-	printf("Calling queue funciton\n");	 
 	assert(pSound->numSamples > 0);
 	assert(pSound->pData);
 
@@ -178,8 +177,6 @@ void AudioMixer_queueSound(wavedata_t *pSound)
     if(i == MAX_SOUND_BITES){
         printf("Unable to add Sound Bite due to lack of space\n");
     }   
-
-
 
 }
 

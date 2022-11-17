@@ -2,6 +2,7 @@
 #include "consoleWriter.h"
 #include "intervalTimer.h"
 #include "beatGenerator.h"
+#include "hardwareUpdate.h"
 #include "audioMixer.h"
 #include "util.h"
 #include <stdbool.h>
@@ -18,8 +19,22 @@ static void *console_writer_thread(void *_)
     while(!stopThread)
     {
         int volume = AudioMixer_getVolume();
+        int bpm = getBPM();
+        int mode = getMode();
         Interval_getStatisticsAndClear(INTERVAL_LOW_LEVEL_AUDIO, &stats);
-        printf("vol: %d \tLow [%f, %f] avg %f/%d\n", volume, stats.minIntervalInMs, stats.maxIntervalInMs, stats.avgIntervalInMs, stats.numSamples);
+        float low_min = stats.minIntervalInMs;
+        float low_max = stats.maxIntervalInMs;
+        float low_av = stats.avgIntervalInMs;
+        int low_num_samples = stats.numSamples;
+        Interval_getStatisticsAndClear(INTERVAL_BEAT_BOX, &stats);
+        float beat_min = stats.minIntervalInMs;
+        float beat_max = stats.maxIntervalInMs;
+        float beat_av = stats.avgIntervalInMs;
+        int beat_num_samples = stats.numSamples;
+        
+        printf("M%d %dbpm vol: %d \tLow [%f, %f] avg %f/%d\t Beat[%f, %f] avg %f/%d\n", 
+                mode, bpm, volume, low_min, low_max, low_av, low_num_samples, beat_min, 
+                beat_max, beat_av, beat_num_samples);
         sleep_for_ms(1000);
     }
     return NULL;

@@ -55,8 +55,6 @@ int main(int argc, char *argv[])
     //Interval_init();
     console_writer_init();
     beatPlayerInit();
-    //buttonsInit();
-    //updateInit();
     
     int buttonIspressed = whichButtonPressed();
 
@@ -100,6 +98,15 @@ int main(int argc, char *argv[])
         buttonIspressed = whichButtonPressed();
         printf("This button is getting prssed : %d\n", buttonIspressed);
 
+        }
+    }
+
+    printf("Enter Q to quit.\n");
+    while(true)
+    {
+        if(toupper(getchar() == 'Q'))
+        {
+            break;
         }
     }
     //break loop
