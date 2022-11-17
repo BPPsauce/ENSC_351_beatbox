@@ -18,9 +18,10 @@
 int main(int argc, char *argv[])
 {
 
-
+/*welcome message*/
     printf("Welcome to the program!\n");
   
+    /*init all the threads*/
     Interval_init();
     beatPlayerInit();
     console_writer_init();
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
         }
     }
     //break loop
+    /*clean up*/
     AudioMixer_cleanup();
     printf("Shutting down...\n");
     displayWriter_cleanup();
