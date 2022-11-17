@@ -9,10 +9,12 @@
 #include "util.h"
 #include "hardwareUpdate.h"
 
+/*hardware specs defines*/
 #define DISPLAY_I2C_ADDR 0x70
 
 #define I2C_LINUX_BUS1 "/dev/i2c-1"
 
+/*row define*/
 #define ROW0 0X00
 #define ROW1 0X02
 #define ROW2 0X04
@@ -64,13 +66,14 @@ static void writeI2cReg(int i2cFileDesc, unsigned char regAddr,unsigned char val
 }
 
 //reset the display to empty
-void resetDisplay(){
+static void resetDisplay(){
     int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
     for (int i = 0; i < 8; i++){
         writeI2cReg(i2cFileDesc, rows[i], 0x00);
     }
 }
 
+/*pin config for the i2c pins*/
 static void i2cpinsInit(){
     //init for P_18 and P_17
     runCommand("config-pin P9_18 i2c");
@@ -118,7 +121,7 @@ static int * doubleSplit(double number){
     return digit;
 }
 
-void printInteger(int reading){
+static void printInteger(int reading){
     int * digit = integerSplit(reading);
 
     int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
@@ -140,7 +143,7 @@ void printInteger(int reading){
     free(digit);
 }
 
-void printDouble(double reading){
+static void printDouble(double reading){
     int * digit = doubleSplit(reading);
 
     int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
@@ -162,7 +165,8 @@ void printDouble(double reading){
     free(digit);
 }
 
-void printMode(int mode){
+/*mode array | num array*/
+static void printMode(int mode){
     int i2cFileDesc = initI2cBus(I2C_LINUX_BUS1, DISPLAY_I2C_ADDR);
     unsigned char letterM[] = {0x50, 0x70, 0x70, 0x50, 0x50, 0x50, 0x50, 0x00};
     unsigned char value[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -178,6 +182,7 @@ void printMode(int mode){
 
 }
 
+/*thread for the display*/
 static void *UpdateDisplay(void *_)
 {
     while (!stopping){
@@ -221,14 +226,17 @@ static void *UpdateDisplay(void *_)
     return NULL;
 }
 
+/*init thread*/
 void displayWriter_init(void)
 {
     displayInternalInit();
     pthread_create(&displayThreadID, NULL, &UpdateDisplay, NULL);
 }
 
+/*clean up thread*/
 void displayWriter_cleanup(void)
 {
     stopping = 1;
     pthread_join(displayThreadID, NULL);
+    resetDisplay();
 }

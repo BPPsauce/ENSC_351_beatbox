@@ -8,10 +8,6 @@
 #include "util.h"
 #include "beatGenerator.h"
 
-#define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
-#define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
-#define SNARE_SOUND "beatbox-wav-files/100059__menegass__gui-drum-snare-soft.wav"
-
 static bool quit = false;
 static int mode = 0;
 static int BPM = 120;
@@ -71,7 +67,7 @@ static void updateMode(int grayButtonReading){
     }
 
 }
-
+/*For sound playing when button is pressed*/
 static void playButtonSound(int buttonReading){
 
     if (buttonReading != 0 && buttonReading != 1){
@@ -101,6 +97,7 @@ static void playButtonSound(int buttonReading){
 
 }
 
+/*this thread will keep updating the volume, BPM, and joystick direction as an own thread*/
 static void *hardwareUpdate(void *_){
     while (!quit){
         joystickDir = getDirection(joyStickReadX(),joyStickReadY());
@@ -114,11 +111,12 @@ static void *hardwareUpdate(void *_){
     return NULL;
 }
 
-
+/*thread init*/
 void HWupdateInit(void){
     pthread_create(&hardwareUpdateThreadID, NULL, &hardwareUpdate, NULL);
 }
 
+/*thread clean up*/
 void HWupdateStop(void){
     printf("Stopping hardware update thread\n");
     quit = true;
@@ -126,6 +124,7 @@ void HWupdateStop(void){
     printf("Finished stopping hardware updater thread\n\n");
 }
 
+/*getters*/
 int getVolume(){return volume;}
 int getBPM(){return BPM;}
 int getMode(){return mode;}

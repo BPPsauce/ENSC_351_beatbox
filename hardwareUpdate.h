@@ -2,8 +2,9 @@
 #ifndef HARDWAREUPDATE_H
 #define HARDWAREUPDATE_H
 
+/*init for hardware update thread*/
 void HWupdateInit(void);
-
+/*clean up*/
 void HWupdateStop(void);
 
 /*getters for the variables*/

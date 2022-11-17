@@ -7,17 +7,17 @@
 #include "hardwareUpdate.h"
 #include "intervalTimer.h"
 
+/*sound define*/
 #define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
 #define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
 #define SNARE_SOUND "beatbox-wav-files/100059__menegass__gui-drum-snare-soft.wav"
-
 static wavedata_t drum;
 static wavedata_t hihat;
 static wavedata_t snare;
-static bool quit = false;
 
-static pthread_mutex_t beatPlayMutex = PTHREAD_MUTEX_INITIALIZER;
-//static pthread_mutex_t tonePlayMutex = PTHREAD_MUTEX_INITIALIZER;
+/*thread quit flag*/
+static bool quit = false;
+/*thread ID*/
 static pthread_t beatGenerateThreadID;
 
 
@@ -27,7 +27,7 @@ static int beatDelay(int BPM){
     return (int)delayRes;
 }
 
-
+/*standard rock beat*/
 static void mode_0_Beat(int BPM, int volume){ //120
     int timeDelayBetween = beatDelay(BPM);
     /*hi-hat base*/
@@ -53,6 +53,7 @@ static void mode_0_Beat(int BPM, int volume){ //120
     sleep_for_ms(timeDelayBetween);
 }
 
+/*custome beat*/
 static void mode_1_Beat(int BPM, int volume){ //120
     int timeDelayBetween = beatDelay(BPM);
     /*hi-hat base*/
@@ -92,6 +93,7 @@ static void mode_1_Beat(int BPM, int volume){ //120
     sleep_for_ms(timeDelayBetween);
 }
 
+/*only makes a single tone*/
 void makeSingleTone(int buttonInput){
     int BPM = getBPM();
     int volume = getVolume();
@@ -115,12 +117,12 @@ void makeSingleTone(int buttonInput){
     }
 }
 
+/*cycling the beat according to the button input*/
 static void *beatGenerateThread(void *_){
     while (!quit){
         int mode = getMode();
         int BPM = getBPM();
         int volume = getVolume();
-        pthread_mutex_lock(&beatPlayMutex);
         switch (mode)
         {
         case 0:
@@ -129,19 +131,15 @@ static void *beatGenerateThread(void *_){
         case 1: 
             mode_1_Beat(BPM, volume);
             break;
-        case 2: 
-            printf("No drum play mode!\n");
-            break;
         default:
-            printf("Mode 2: no drum sound\n");
+            //printf("Mode 2: no drum sound\n");
             break;
         }
-        pthread_mutex_unlock(&beatPlayMutex);
     }
     return NULL;
 }
 
-
+/*thread init*/
 void beatPlayerInit(void){
     AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &drum);
     AudioMixer_readWaveFileIntoMemory(HIHAT_SOUND, &hihat);
@@ -149,6 +147,7 @@ void beatPlayerInit(void){
     pthread_create(&beatGenerateThreadID, NULL, &beatGenerateThread, NULL);
 }
 
+/*thread clean up*/
 void beatPlayerStop(void){
     printf("Stopping beat player thread\n");
     quit = true;
