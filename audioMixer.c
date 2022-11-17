@@ -253,6 +253,7 @@ void AudioMixer_setVolume(int newVolume)
 // Fill the buff array with new PCM values to output.
 //    buff: buffer to fill with new PCM data from sound bites.
 //    size: the number of *values* to store into buff
+//	stacking 2 wav files together, up to 30
 static void fillPlaybackBuffer(short *buff, int size)
 {
 
@@ -338,7 +339,7 @@ static void fillPlaybackBuffer(short *buff, int size)
 
 }
 
-
+//the thread that plays the filled buffer
 void* playbackThread(void* _arg)
 {
 	while (!stopping) {
