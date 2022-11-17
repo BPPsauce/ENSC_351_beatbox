@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "hardwareUpdate.h"
+#include "intervalTimer.h"
 
 #define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
 #define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
@@ -15,7 +16,7 @@ static wavedata_t hihat;
 static wavedata_t snare;
 static bool quit = false;
 
-static pthread_mutex_t beatPlayMutex = PTHREAD_MUTEX_INITIALIZER;
+// static pthread_mutex_t beatPlayMutex = PTHREAD_MUTEX_INITIALIZER;
 //static pthread_mutex_t tonePlayMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_t beatGenerateThreadID;
 
@@ -34,30 +35,21 @@ static void mode_0_Beat(int BPM, int volume){ //120
 
     AudioMixer_queueSound(&drum);
     AudioMixer_queueSound(&hihat);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
+    
     /*hi-hat*/
     AudioMixer_queueSound(&hihat);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat snare*/
     AudioMixer_queueSound(&snare);
     AudioMixer_queueSound(&hihat);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat*/
     AudioMixer_queueSound(&hihat);
-    sleep_for_ms(timeDelayBetween);
-    /*hi-hat base*/
-    AudioMixer_queueSound(&drum);
-    AudioMixer_queueSound(&hihat);
-    sleep_for_ms(timeDelayBetween);
-    /*hi-hat*/
-    AudioMixer_queueSound(&hihat);
-    sleep_for_ms(timeDelayBetween);
-    /*hi-hat snare*/
-    AudioMixer_queueSound(&snare);
-    AudioMixer_queueSound(&hihat);
-    sleep_for_ms(timeDelayBetween);
-    /*hi-hat*/
-    AudioMixer_queueSound(&hihat);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
 }
 
@@ -67,28 +59,36 @@ static void mode_1_Beat(int BPM, int volume){ //120
     AudioMixer_setVolume(volume);
 
     AudioMixer_queueSound(&drum);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat*/
     AudioMixer_queueSound(&drum);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat snare*/
     AudioMixer_queueSound(&hihat);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat*/
     AudioMixer_queueSound(&drum);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat base*/
     AudioMixer_queueSound(&drum);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat*/
     AudioMixer_queueSound(&hihat);
     AudioMixer_queueSound(&snare);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat snare*/
     AudioMixer_queueSound(&drum);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
     /*hi-hat*/
     AudioMixer_queueSound(&drum);
+    Interval_markInterval(INTERVAL_BEAT_BOX);
     sleep_for_ms(timeDelayBetween);
 }
 
@@ -99,7 +99,6 @@ static void *beatGenerateThread(void *_){
         int mode = getMode();
         int BPM = getBPM();
         int volume = getVolume();
-        pthread_mutex_lock(&beatPlayMutex);
         switch (mode)
         {
         case 0:
@@ -112,8 +111,6 @@ static void *beatGenerateThread(void *_){
             printf("Mode 2: no drum sound\n");
             break;
         }
-        pthread_mutex_unlock(&beatPlayMutex);
-        sleep_for_ms(200);
     }
     return NULL;
 }
@@ -130,6 +127,5 @@ void beatPlayerStop(void){
     AudioMixer_freeWaveFileData(&drum);
     AudioMixer_freeWaveFileData(&hihat);
     AudioMixer_freeWaveFileData(&snare);
-    AudioMixer_cleanup();
     pthread_join(beatGenerateThreadID, NULL);
 }

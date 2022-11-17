@@ -2,9 +2,9 @@
 #ifndef HARDWAREUPDATE_H
 #define HARDWAREUPDATE_H
 
-void updateInit(void);
+void HWupdateInit(void);
 
-void updateStop(void);
+void HWupdateStop(void);
 
 /*getters for the variables*/
 int getVolume();

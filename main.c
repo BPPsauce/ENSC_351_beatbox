@@ -49,67 +49,32 @@ int main(int argc, char *argv[])
     printf("Welcome to the program!\n");
     //pinInit is for the USER button
     buttonsInit();
-    updateInit();
+    displayWriter_init();
+    HWupdateInit();
     Interval_init();
     AudioMixer_init();
-    //Interval_init();
-    console_writer_init();
     beatPlayerInit();
-    //buttonsInit();
-    //updateInit();
-    
-    int buttonIspressed = whichButtonPressed();
+    console_writer_init();
 
-    while (buttonIspressed != 3){
-        //update variables
-
-        //display init
-        displayInit();
-
-        int direction = getJoystickDir();
-            //center - 0
-            //up     - 1
-            //down   - 2
-            //left   - 3
-            //right  - 4
-        switch (direction)
+    printf("Enter Q to quit.\n");
+    while(true)
+    {
+        if(toupper(getchar() == 'Q'))
         {
-        case 0: //center
-            printMode(getMode());
             break;
-        case 1: //up
-            printInteger(getVolume());
-            sleep_for_ms(100);
-            break;
-        case 2: //down 
-            printInteger(getVolume());
-            sleep_for_ms(100);
-            break;
-        case 3: //left
-            printDouble((double)getBPM() / 60.0);
-            sleep_for_ms(100);
-            break;
-        case 4: //right
-            printDouble((double)getBPM() / 60.0);
-            sleep_for_ms(100);
-            break;
-        default:
-            printf("Joystick reading not correct!\n");
-            break;
-
-        buttonIspressed = whichButtonPressed();
-        printf("This button is getting prssed : %d\n", buttonIspressed);
-
         }
     }
     //break loop
     printf("Shutting down...\n");
-    updateStop();
-    beatPlayerStop();
-    resetDisplay();
-    AudioMixer_cleanup();
-    Interval_cleanup();
     console_writer_cleanup();
+    beatPlayerStop();
+    AudioMixer_cleanup();
+    HWupdateStop();
+    displayWriter_cleanup();
+    
+    //reset display
+    //stop the threads
+    // resetDisplay();
 
     printf("Done shutdown! Goodbye!\n");
     }

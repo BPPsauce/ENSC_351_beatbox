@@ -10,9 +10,9 @@ void printDouble(double reading);
 
 void printMode(int mode);
 
-void displayInit(void);
-
 void resetDisplay(void);
 
+void displayInit(void);
 
+void displayCleanup(void);
 #endif
