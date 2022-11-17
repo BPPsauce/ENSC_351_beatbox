@@ -7,7 +7,6 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "util.h"
-#include "wavPlayer.h"
 
 #define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
 #define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
@@ -43,7 +42,7 @@ static void updateVolume(int joystickReading){
             volume = volume - 5;
         }
     }
-    printf("volume ID is: %d\n", volume);
+    // printf("volume ID is: %d\n", volume);
 }
 
 static void updateBPM(int joystickReading){
@@ -61,7 +60,7 @@ static void updateBPM(int joystickReading){
             BPM = BPM - 5;
         }
     }
-    printf("BPM is: %d\n", BPM);
+    // printf("BPM is: %d\n", BPM);
 }
 
 static void updateMode(int grayButtonReading){
@@ -70,7 +69,7 @@ static void updateMode(int grayButtonReading){
         if (mode == 3){
             mode = 0;
         }
-        printf("Mode ID is: %d\n", mode);
+        // printf("Mode ID is: %d\n", mode);
     }
 
 }
@@ -83,16 +82,16 @@ static void playButtonSound(int buttonReading){
        switch (buttonReading)
         {
         case 2:
-            printf("playing base drum\n");
-            playTone(DRUM_SOUND);
+            // printf("playing base drum\n");
+            // playTone(DRUM_SOUND);
             break;
         case 3: 
-            printf("playing snare\n");
-            playTone(HIHAT_SOUND);
+            // printf("playing snare\n");
+            // playTone(HIHAT_SOUND);
             break;
-        case 4 :
-            printf("playin hi-hat\n");
-            playTone(SNARE_SOUND);
+        case 4:
+            // printf("playin hi-hat\n");
+            // playTone(SNARE_SOUND);
         default:
             break;
         } 

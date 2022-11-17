@@ -3,11 +3,7 @@
 # Edit this file to compile extra C files into their own programs.
 TARGET= beatbox
 #SOURCES= main.c audioMixer.c
-<<<<<<< HEAD
-SOURCES= main.c wavPlayer.c button.c display.c joystick.c util.c audioMixer.c hardwareUpdate.c beatGenerator.c
-=======
-SOURCES= main.c wavPlayer.c button.c display.c joystick.c util.c audioMixer.c hardwareUpdate.c intervalTimer.c consoleWriter.c
->>>>>>> bb4f360a04ea5215ac603478ff784b0660fa6df0
+SOURCES= main.c button.c display.c joystick.c util.c audioMixer.c beatGenerator.c hardwareUpdate.c intervalTimer.c consoleWriter.c
 PUBDIR = $(HOME)/cmpt433/public/myApps
 OUTDIR = $(PUBDIR)
 CROSS_TOOL = arm-linux-gnueabihf-

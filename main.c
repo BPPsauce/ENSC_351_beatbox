@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
     //pinInit is for the USER button
     buttonsInit();
     updateInit();
+    Interval_init();
     AudioMixer_init();
     beatPlayerInit();
     

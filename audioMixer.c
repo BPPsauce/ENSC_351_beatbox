@@ -85,7 +85,6 @@ void AudioMixer_init(void)
  	unsigned long unusedBufferSize = 0;
 	snd_pcm_get_params(handle, &unusedBufferSize, &playbackBufferSize);
 	// ..allocate playback buffer:
-	printf("allocating playback buff\n");
 	playbackBuffer = malloc(playbackBufferSize * sizeof(*playbackBuffer));
 
 	// Launch playback thread:
@@ -117,7 +116,6 @@ void AudioMixer_readWaveFileIntoMemory(char *fileName, wavedata_t *pSound)
 	fseek(file, PCM_DATA_OFFSET, SEEK_SET);
 
 	// Allocate space to hold all PCM data
-	printf("mallov wave data\n");
 	pSound->pData = malloc(sizeInBytes);
 	if (pSound->pData == 0) {
 		fprintf(stderr, "ERROR: Unable to allocate %d bytes for file %s.\n",
@@ -144,6 +142,7 @@ void AudioMixer_freeWaveFileData(wavedata_t *pSound)
 void AudioMixer_queueSound(wavedata_t *pSound)
 {
 	// Ensure we are only being asked to play "good" sounds:
+	printf("Calling queue funciton\n");	 
 	assert(pSound->numSamples > 0);
 	assert(pSound->pData);
 
