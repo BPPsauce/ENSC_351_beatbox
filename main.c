@@ -14,9 +14,6 @@
 
 #include <alsa/asoundlib.h>
 
-/*should move it to somewhere else*/
-#define DRUM_SOUND "beatbox-wav-files/100060__menegass__gui-drum-splash-hard.wav"
-#define DRUM_SOUND_2 "beatbox-wav-files/100060__menegass__gui-drum-splash-hard.wav"
 
 int main(int argc, char *argv[])
 {
@@ -33,10 +30,9 @@ int main(int argc, char *argv[])
         AudioMixer_queueSound(&DrumSound);
         AudioMixer_queueSound(&DrumSound2);
         sleep_for_ms(4000); //100 is too little for the sound 
-        AudioMixer_queueSound(&DrumSound2);
-    Interval_init();
-    AudioMixer_init();
-    console_writer_init();
+        AudioMixer_queueSound(&DrumSound2);*/
+   
+    /*
     wavedata_t pSound;
     AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
     while(1)
@@ -56,7 +52,11 @@ int main(int argc, char *argv[])
     updateInit();
     Interval_init();
     AudioMixer_init();
+    Interval_init();
+    console_writer_init();
     beatPlayerInit();
+    buttonsInit();
+    updateInit();
     
     int buttonIspressed = whichButtonPressed();
 
