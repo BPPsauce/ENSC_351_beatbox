@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
         //update variables
 
         //display init
-        displayInit();
+        // displayInit();
 
         int direction = getDirection(joyStickReadX(), joyStickReadY());
             //center - 0
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     beatPlayerStop();
     //reset display
     //stop the threads
-    resetDisplay();
+    // resetDisplay();
 
     printf("Done shutdown! Goodbye!\n");
     }

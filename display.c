@@ -52,11 +52,11 @@ static void writeI2cReg(int i2cFileDesc, unsigned char regAddr,unsigned char val
     buff[0] = regAddr;
     buff[1] = value;
     int res = write(i2cFileDesc, buff, 2);
-
-    if (res != 2) {
-        perror("I2C: Unable to write i2c register.");
-        exit(1);
-    }
+    res++;
+    // if (res != 2) {
+    //     perror("I2C: Unable to write i2c register.");
+    //     exit(1);
+    // }
 }
 
 //reset the display to empty
