@@ -123,9 +123,11 @@ void beatPlayerInit(void){
 }
 
 void beatPlayerStop(void){
+    printf("Stopping beat player thread\n");
     quit = true;
+    pthread_join(beatGenerateThreadID, NULL);
     AudioMixer_freeWaveFileData(&drum);
     AudioMixer_freeWaveFileData(&hihat);
     AudioMixer_freeWaveFileData(&snare);
-    pthread_join(beatGenerateThreadID, NULL);
+    printf("finished stopping beat player thread\n\n");
 }

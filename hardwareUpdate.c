@@ -113,8 +113,10 @@ void HWupdateInit(void){
 }
 
 void HWupdateStop(void){
+    printf("Stopping hardware update thread\n");
     quit = true;
     pthread_join(hardwareUpdateThreadID, NULL);
+    printf("Finished stopping hardware updater thread\n\n");
 }
 
 int getVolume(){return volume;}

@@ -69,10 +69,6 @@ int main(int argc, char *argv[])
     beatPlayerStop();
     AudioMixer_cleanup();
     HWupdateStop();
-    
-    //reset display
-    //stop the threads
-    // resetDisplay();
 
     printf("Done shutdown! Goodbye!\n");
     }

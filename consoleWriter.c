@@ -31,7 +31,7 @@ static void *console_writer_thread(void *_)
         float beat_max = stats.maxIntervalInMs;
         float beat_av = stats.avgIntervalInMs;
         int beat_num_samples = stats.numSamples;
-        
+
         printf("M%d %dbpm vol: %d \tLow [%f, %f] avg %f/%d\t Beat[%f, %f] avg %f/%d\n", 
                 mode, bpm, volume, low_min, low_max, low_av, low_num_samples, beat_min, 
                 beat_max, beat_av, beat_num_samples);
@@ -48,6 +48,8 @@ void console_writer_init()
 
 void console_writer_cleanup(void)
 {
+    printf("Stopping console writer thread\n");
     stopThread = true;
     pthread_join(writerThread, NULL);
+    printf("Finished stopping console writer thread\n\n");
 }
