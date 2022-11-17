@@ -86,11 +86,11 @@ int main(int argc, char *argv[])
             sleep_for_ms(100);
             break;
         case 3: //left
-            printDouble(getBPM() / 60);
+            printDouble((double)getBPM() / 60.0);
             sleep_for_ms(100);
             break;
         case 4: //right
-            printDouble(getBPM() / 60);
+            printDouble((double)getBPM() / 60.0);
             sleep_for_ms(100);
             break;
         default:
@@ -106,9 +106,10 @@ int main(int argc, char *argv[])
     printf("Shutting down...\n");
     updateStop();
     beatPlayerStop();
-    //reset display
-    //stop the threads
     resetDisplay();
+    AudioMixer_cleanup();
+    Interval_cleanup();
+    console_writer_cleanup();
 
     printf("Done shutdown! Goodbye!\n");
     }
