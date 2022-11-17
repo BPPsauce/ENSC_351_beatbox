@@ -17,34 +17,7 @@
 
 int main(int argc, char *argv[])
 {
-//AUDIO PART
-    //  playTone();
-    /*
-    AudioMixer_init();
-    wavedata_t DrumSound;
-    wavedata_t DrumSound2;
-    AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &DrumSound);
-    AudioMixer_readWaveFileIntoMemory(DRUM_SOUND_2, &DrumSound2);
-    while(1)
-    {
-        AudioMixer_queueSound(&DrumSound);
-        AudioMixer_queueSound(&DrumSound2);
-        sleep_for_ms(4000); //100 is too little for the sound 
-        AudioMixer_queueSound(&DrumSound2);*/
-   
-    /*
-    wavedata_t pSound;
-    AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &pSound);
-    while(1)
-    {
-        AudioMixer_queueSound(&pSound);
-        AudioMixer_queueSound(&pSound);
-        sleep_for_ms(4000);
-        AudioMixer_queueSound(&pSound);
-        sleep_for_ms(4000);
-    }*/
-//END OF WAV PLAYER
- 
+
 
     printf("Welcome to the program!\n");
     //pinInit is for the USER button

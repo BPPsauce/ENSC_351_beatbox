@@ -197,26 +197,26 @@ static void *UpdateDisplay(void *_)
             break;
         case 1: //up
             printInteger(getVolume());
-            sleep_for_ms(100);
+            sleep_for_ms(500);
             break;
         case 2: //down 
             printInteger(getVolume());
-            sleep_for_ms(100);
+            sleep_for_ms(500);
             break;
         case 3: //left
             printDouble(getBPM() / 60.0);
-            sleep_for_ms(100);
+            sleep_for_ms(500);
             break;
         case 4: //right
             printDouble(getBPM() / 60.0);
-            sleep_for_ms(100);
+            sleep_for_ms(500);
             break;
         default:
             printf("Joystick reading not correct!\n");
             break;
 
         }
-        sleep_for_ms(50);
+        sleep_for_ms(100);
     }
     return NULL;
 }

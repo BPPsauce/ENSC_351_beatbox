@@ -7,4 +7,6 @@ void beatPlayerInit(void);
 
 void beatPlayerStop(void);
 
+void makeSingleTone(int buttonInput);
+
 #endif

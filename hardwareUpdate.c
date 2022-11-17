@@ -4,9 +4,9 @@
 #include "button.h"
 #include <pthread.h>
 #include <stdbool.h>
-#include <ctype.h>
 #include <stdio.h>
 #include "util.h"
+#include "beatGenerator.h"
 
 #define DRUM_SOUND "beatbox-wav-files/100051__menegass__gui-drum-bd-hard.wav"
 #define HIHAT_SOUND "beatbox-wav-files/100053__menegass__gui-drum-cc.wav"
@@ -18,6 +18,7 @@ static int BPM = 120;
 static int volume = 80;
 static int joystickDir = 0;
 static pthread_t hardwareUpdateThreadID;
+static pthread_mutex_t hwMutex = PTHREAD_MUTEX_INITIALIZER;
 
 //center - 0
 //up     - 1
@@ -74,22 +75,28 @@ static void updateMode(int grayButtonReading){
 static void playButtonSound(int buttonReading){
 
     if (buttonReading != 0 && buttonReading != 1){
+        sleep_for_ms(500);
+        pthread_mutex_lock(&hwMutex);
        switch (buttonReading)
         {
         case 2:
-            // printf("playing base drum\n");
-            // playTone(DRUM_SOUND);
+            printf("playing base drum\n");
+            makeSingleTone(2);
             break;
         case 3: 
-            // printf("playing snare\n");
+            printf("playing snare\n");
+            makeSingleTone(3);
             // playTone(HIHAT_SOUND);
             break;
         case 4:
-            // printf("playin hi-hat\n");
+            printf("playin hi-hat\n");
+            makeSingleTone(4);
             // playTone(SNARE_SOUND);
         default:
             break;
         } 
+        sleep_for_ms(500);
+        pthread_mutex_unlock(&hwMutex);
     }
 
 }

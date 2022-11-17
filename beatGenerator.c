@@ -16,7 +16,7 @@ static wavedata_t hihat;
 static wavedata_t snare;
 static bool quit = false;
 
-// static pthread_mutex_t beatPlayMutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t beatPlayMutex = PTHREAD_MUTEX_INITIALIZER;
 //static pthread_mutex_t tonePlayMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_t beatGenerateThreadID;
 
@@ -92,13 +92,35 @@ static void mode_1_Beat(int BPM, int volume){ //120
     sleep_for_ms(timeDelayBetween);
 }
 
-
+void makeSingleTone(int buttonInput){
+    int BPM = getBPM();
+    int volume = getVolume();
+    AudioMixer_setVolume(volume);
+    switch (buttonInput)
+    {
+    case 2:
+        AudioMixer_queueSound(&drum);
+        sleep_for_ms(beatDelay(BPM));
+        break;
+    case 3: 
+        AudioMixer_queueSound(&snare);
+        sleep_for_ms(beatDelay(BPM));
+        break;
+    case 4:
+        AudioMixer_queueSound(&hihat);
+        sleep_for_ms(beatDelay(BPM));
+        break;
+    default:
+        break;
+    }
+}
 
 static void *beatGenerateThread(void *_){
     while (!quit){
         int mode = getMode();
         int BPM = getBPM();
         int volume = getVolume();
+        pthread_mutex_lock(&beatPlayMutex);
         switch (mode)
         {
         case 0:
@@ -107,13 +129,18 @@ static void *beatGenerateThread(void *_){
         case 1: 
             mode_1_Beat(BPM, volume);
             break;
+        case 2: 
+            printf("No drum play mode!\n");
+            break;
         default:
             printf("Mode 2: no drum sound\n");
             break;
         }
+        pthread_mutex_unlock(&beatPlayMutex);
     }
     return NULL;
 }
+
 
 void beatPlayerInit(void){
     AudioMixer_readWaveFileIntoMemory(DRUM_SOUND, &drum);
