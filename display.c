@@ -22,13 +22,13 @@
 #define ROW6 0X0C
 #define ROW7 0X0E
 
-unsigned char rows[] = {ROW7, ROW6, ROW5, ROW4, ROW3, ROW2, ROW1, ROW0};
+static unsigned char rows[] = {ROW7, ROW6, ROW5, ROW4, ROW3, ROW2, ROW1, ROW0};
 static pthread_t displayThreadID;
 static int stopping = 0;
 
 // << 4 to get the one on the right
 // the digit[0] and digit[1] will select the correct pattern from the table
-unsigned char numberTable[10][8] = {{0x02, 0x05, 0x05, 0x05, 0x05, 0x05, 0x02, 0x00}, //0
+static unsigned char numberTable[10][8] = {{0x02, 0x05, 0x05, 0x05, 0x05, 0x05, 0x02, 0x00}, //0
                                     {0x02, 0x06, 0x02, 0x02, 0x02, 0x02, 0x07, 0x00}, //1
                                     {0x07, 0x01, 0x01, 0x07, 0x04, 0x04, 0x07, 0x00}, //2
                                     {0x07, 0x01, 0x01, 0x03, 0x01, 0x01, 0x07, 0x00}, //3 
