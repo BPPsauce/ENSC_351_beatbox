@@ -71,7 +71,7 @@ static void *beatGenerateThread(void *_){
             pthread_mutex_lock(&beatPlayMutex);
             mode_0_Beat(BPM);
             pthread_mutex_unlock(&beatPlayMutex);
-            sleep_for_ms(1000);
+            sleep_for_ms(100);
         }
     }
     return NULL;

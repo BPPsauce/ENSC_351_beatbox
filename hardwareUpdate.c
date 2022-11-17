@@ -16,6 +16,7 @@ static bool quit = false;
 static int mode = 0;
 static int BPM = 120;
 static int volume = 80;
+static int joystickDir = 0;
 static pthread_mutex_t updateMutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_t hardwareUpdateThreadID;
 
@@ -103,13 +104,13 @@ static void playButtonSound(int buttonReading){
 
 static void *hardwareUpdate(void *_){
     while (!quit){
-        int joystickDir = getDirection(joyStickReadX(),joyStickReadY());
+        joystickDir = getDirection(joyStickReadX(),joyStickReadY());
         int buttonValue = whichButtonPressed();
         updateVolume(joystickDir);
         updateBPM(joystickDir);
         updateMode(buttonValue);
         playButtonSound(buttonValue);
-        sleep_for_ms(200);
+        sleep_for_ms(300);
     }
     return NULL;
 }
@@ -127,3 +128,4 @@ void updateStop(void){
 int getVolume(){return volume;}
 int getBPM(){return BPM;}
 int getMode(){return mode;}
+int getJoystickDir(){return joystickDir;}
