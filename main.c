@@ -52,11 +52,11 @@ int main(int argc, char *argv[])
     updateInit();
     Interval_init();
     AudioMixer_init();
-    Interval_init();
+    //Interval_init();
     console_writer_init();
     beatPlayerInit();
-    buttonsInit();
-    updateInit();
+    //buttonsInit();
+    //updateInit();
     
     int buttonIspressed = whichButtonPressed();
 

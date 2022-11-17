@@ -22,14 +22,15 @@ static pthread_t beatGenerateThreadID;
 
 //beatdelay in miliseconds 
 static int beatDelay(int BPM){
-    int delayRes = (60 / BPM / 2) * 1000;
-    return delayRes;
+    double delayRes = ((60.0 / (double)BPM ) / 2.0) * 1000;
+    return (int)delayRes;
 }
 
 
-static void mode_0_Beat(int BPM){
+static void mode_0_Beat(int BPM){ //120
     int timeDelayBetween = beatDelay(BPM);
     /*hi-hat base*/
+    AudioMixer_setVolume(40);
     AudioMixer_queueSound(&drum);
     AudioMixer_queueSound(&hihat);
     sleep_for_ms(timeDelayBetween);
@@ -70,6 +71,7 @@ static void *beatGenerateThread(void *_){
             pthread_mutex_lock(&beatPlayMutex);
             mode_0_Beat(BPM);
             pthread_mutex_unlock(&beatPlayMutex);
+            sleep_for_ms(1000);
         }
     }
     return NULL;
