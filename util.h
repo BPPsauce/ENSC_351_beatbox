@@ -3,8 +3,6 @@
 file has functions that are generally useful to potentially multiple modules
 */
 
-#define MAX_BUFF_SIZE 2048
-
 void sleep_for_ms(long long delayInMs); //kernal sleep for given ms
 
 int file_read(char* filename); //read file given by filename - returns value
